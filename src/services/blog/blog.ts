@@ -24,6 +24,6 @@ export class Blog {
       title: this.title,
       owner: this.owner,
       content: this.content,
-    }
+    };
   }
 }

@@ -1,0 +1,9 @@
+.cache
+dist
+types
+**/node_modules/**
+/src/admin
+src/extensions/documentation
+src/api/**/documentation
+types/generated
+

@@ -1,9 +1,9 @@
-import { User, UserProperties } from "../services/user/User";
-import { db } from "../database/db";
-import { UserTable } from "../database/schema";
-import { PostgresError } from "postgres";
-import { DuplicateValueError } from "../services/errors/duplicate-value.error";
-import { eq } from "drizzle-orm";
+import { User, UserProperties } from '../services/user/User';
+import { db } from '../database/db';
+import { UserTable } from '../database/schema';
+import { PostgresError } from 'postgres';
+import { DuplicateValueError } from '../services/errors/duplicate-value.error';
+import { eq } from 'drizzle-orm';
 
 type Row = {
   id: number;
@@ -16,7 +16,7 @@ function rowToDomain(row: Row): User {
 }
 
 export class AuthPersistance {
-  public async addUser(userDTO: Omit<UserProperties, "id">) {
+  public async addUser(userDTO: Omit<UserProperties, 'id'>) {
     try {
       const { email, password } = userDTO;
       const newUser = await db
@@ -34,10 +34,10 @@ export class AuthPersistance {
 
       return rowToDomain(newUser[0]);
     } catch (error) {
-        if (error instanceof PostgresError &&  error.code === '23505') {
-          throw new DuplicateValueError('User', 'email', userDTO.email);
-        }
-        throw error;
+      if (error instanceof PostgresError &&  error.code === '23505') {
+        throw new DuplicateValueError('User', 'email', userDTO.email);
+      }
+      throw error;
     }
   }
 
@@ -45,7 +45,7 @@ export class AuthPersistance {
     const [user] = await db
       .select()
       .from(UserTable)
-      .where(eq(UserTable.email, email))
+      .where(eq(UserTable.email, email));
     if (user) {
       return rowToDomain({
         id: user.id,

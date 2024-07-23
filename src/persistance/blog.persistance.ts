@@ -1,9 +1,9 @@
-import { and, eq } from "drizzle-orm";
-import { db } from "../database/db";
-import { BlogTable, UserTable } from "../database/schema";
-import { Blog, BlogProperties } from "../services/blog/blog";
-import { PostgresError } from "postgres";
-import { NotFound } from "../services/errors/not-found.error";
+import { and, eq } from 'drizzle-orm';
+import { db } from '../database/db';
+import { BlogTable } from '../database/schema';
+import { Blog, BlogProperties } from '../services/blog/blog';
+import { PostgresError } from 'postgres';
+import { NotFound } from '../services/errors/not-found.error';
 
 type Row = {
   id: number;
@@ -23,7 +23,7 @@ function rowToDomain(row: Row): Blog {
 }
 
 export class BlogPersistance {
-  async create(data: Omit<BlogProperties, "id" | "done">) {
+  async create(data: Omit<BlogProperties, 'id' | 'done'>) {
     try {
       const { title, owner, content } = data;
       const [blog] = await db
@@ -36,8 +36,8 @@ export class BlogPersistance {
         .returning();
       return rowToDomain(blog);
     } catch (error) {
-      if (error instanceof PostgresError && error.code === "23503") {
-        throw new NotFound("blog owner", "id", String(data.owner));
+      if (error instanceof PostgresError && error.code === '23503') {
+        throw new NotFound('blog owner', 'id', String(data.owner));
       }
       throw error;
     }
@@ -68,7 +68,7 @@ export class BlogPersistance {
   }
 
   async update(
-    data: Partial<Omit<BlogProperties, "id" | "owner">>,
+    data: Partial<Omit<BlogProperties, 'id' | 'owner'>>,
     id: number,
     ownerId: number
   ) {

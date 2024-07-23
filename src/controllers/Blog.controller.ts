@@ -1,16 +1,16 @@
-import { Request, Response } from "express";
-import { BlogService, blogService } from "../services/blog/blog.service";
-import { NotFound } from "../services/errors/not-found.error";
-import { BlogProperties } from "../services/blog/blog";
+import { Request, Response } from 'express';
+import { BlogService, blogService } from '../services/blog/blog.service';
+import { NotFound } from '../services/errors/not-found.error';
+import { BlogProperties } from '../services/blog/blog';
 
 interface CreateBlogRequest extends Request {
-  body: Omit<BlogProperties, "id">;
+  body: Omit<BlogProperties, 'id'>;
   user: {
     id: number;
   };
 }
 interface UpdateBlogRequest extends Request {
-  body: Partial<Omit<BlogProperties, "id" | "done">>;
+  body: Partial<Omit<BlogProperties, 'id' | 'done'>>;
   user: {
     id: number;
   };
@@ -34,10 +34,10 @@ export class BlogController {
       const blog = await this.blogService.create(data);
       return res.status(201).json({ blog: blog.getBlogProperties() });
     } catch (error) {
-        if (error instanceof NotFound) {
-            return res.status(404).json({ error: error.message });
-        }
-        return res.status(500).json({ error: "Server error. Please try again later" });
+      if (error instanceof NotFound) {
+        return res.status(404).json({ error: error.message });
+      }
+      return res.status(500).json({ error: 'Server error. Please try again later' });
     }
   }
 
@@ -45,7 +45,7 @@ export class BlogController {
     const { id } = req.params;
     const blog = await this.blogService.getOneById(Number(id));
     if (!blog) {
-      return res.status(404).json({ error: "blog not found" });
+      return res.status(404).json({ error: 'blog not found' });
     }
     return res.json({ blog: blog.getBlogProperties() });
   }
@@ -61,7 +61,7 @@ export class BlogController {
     const data = req.body;
     const blog = await this.blogService.update(Number(blogId), userId, data);
     if (!blog) {
-      return res.status(404).json({ error: "blog not found" });
+      return res.status(404).json({ error: 'blog not found' });
     }
     return res.json({ blog: blog.getBlogProperties() });
   }
@@ -71,7 +71,7 @@ export class BlogController {
     const { id: userId } = req.user;
     const blog = await this.blogService.delete(Number(blogId), userId);
     if (!blog) {
-      return res.status(404).json({ error: "blog not found" });
+      return res.status(404).json({ error: 'blog not found' });
     }
     return res.status(204).end();
   }

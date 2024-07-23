@@ -1,9 +1,9 @@
-import { AuthPersistance, authPersistance } from "../../persistance/Auth.persistance";
-import { User, UserProperties } from "./User";
+import { AuthPersistance, authPersistance } from '../../persistance/Auth.persistance';
+import { User, UserProperties } from './User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
-import { AuthenticationError, Reason } from "../errors/authentication.error";
+import { AuthenticationError, Reason } from '../errors/authentication.error';
 config();
 
 
@@ -31,11 +31,11 @@ export class AuthService {
   public async login(userCredential: Pick<UserProperties, 'email' | 'password'>): Promise<{ user: User; token: string}> {
     const user = await this.authPersistance.getUserByEmail(userCredential.email);
     if (!user) {
-      throw new AuthenticationError(Reason.WRONG_CRENDENTIALS)
+      throw new AuthenticationError(Reason.WRONG_CRENDENTIALS);
     }
     const isPasswordCorrect = bcrypt.compareSync(userCredential.password, user.password);
     if (!isPasswordCorrect) {
-      throw new AuthenticationError(Reason.WRONG_CRENDENTIALS)
+      throw new AuthenticationError(Reason.WRONG_CRENDENTIALS);
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT as string);

@@ -1,4 +1,4 @@
-import { CustomError } from 'ts-custom-error'
+import { CustomError } from 'ts-custom-error';
 
 export enum Reason {
   USER_NOT_FOUND = 'user not found',
@@ -7,6 +7,6 @@ export enum Reason {
 
 export class AuthenticationError extends CustomError {
   public constructor(reason: Reason) {
-    super(`Authentication failed: ${reason}`)
+    super(`Authentication failed: ${reason}`);
   }
 }

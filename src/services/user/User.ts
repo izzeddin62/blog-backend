@@ -5,12 +5,12 @@ export type UserProperties = {
 }
 
 export class User {
-    id: number;
-    email: string;
-    password: string;
-    constructor({ id, email, password }: UserProperties) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-    }
+  id: number;
+  email: string;
+  password: string;
+  constructor({ id, email, password }: UserProperties) {
+    this.id = id;
+    this.email = email;
+    this.password = password;
+  }
 }
