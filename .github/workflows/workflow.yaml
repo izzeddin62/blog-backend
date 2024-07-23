@@ -23,3 +23,6 @@ jobs:
 
       - name: Run code checks
         run: npm run lint
+      
+      - name: Run tests
+        run: npm test
