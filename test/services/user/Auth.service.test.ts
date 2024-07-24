@@ -16,7 +16,7 @@ describe('Auth service', () => {
     authService = new AuthService(mockedAuthPersistance);
   });
 
-  describe('GET USUR', () => {
+  describe('GET USER', () => {
     it('should return getUser is called with an id', async () => {
       const user = users[0];
       mockedAuthPersistance.getUserById.mockResolvedValueOnce(user);
