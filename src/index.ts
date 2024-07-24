@@ -4,6 +4,9 @@ import bodyParser from 'body-parser';
 import routes from './routes';
 import { errors } from 'celebrate';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
