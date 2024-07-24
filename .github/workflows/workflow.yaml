@@ -11,7 +11,7 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-    container: node:10.18-jessie
+    container: node:20
     services:
       postgres:
         image: postgres
@@ -23,13 +23,13 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       
-      env:
-        DB_PORT = 5432
-        DB_HOST = 127.0.0.1
-        DB_USER = postgres
-        DB_NAME = blog
-        DB_PORT = 5432
-        JWT = secret
+    env:
+      DB_PORT = 5432
+      DB_HOST = 127.0.0.1
+      DB_USER = postgres
+      DB_NAME = blog
+      DB_PORT = 5432
+      JWT = secret
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
