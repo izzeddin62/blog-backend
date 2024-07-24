@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const blog_1 = require("../validators/blog");
+const Blog_controller_1 = require("../controllers/Blog.controller");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const router = (0, express_1.Router)();
+router.get('/:id', blog_1.getBlogValidator, (req, res) => Blog_controller_1.blogController.getOneById(req, res));
+router.get('/', (req, res) => Blog_controller_1.blogController.getAll(req, res));
+router.post('/', (req, res, next) => (0, auth_middleware_1.authMiddleware)(req, res, next), blog_1.createBlogValidator, (req, res) => Blog_controller_1.blogController.create(req, res));
+router.patch('/:id', (req, res, next) => (0, auth_middleware_1.authMiddleware)(req, res, next), blog_1.updateBlogValidator, (req, res) => Blog_controller_1.blogController.update(req, res));
+router.delete('/:id', (req, res, next) => (0, auth_middleware_1.authMiddleware)(req, res, next), (req, res) => Blog_controller_1.blogController.delete(req, res));
+exports.default = router;

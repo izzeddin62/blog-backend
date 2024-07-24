@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 import { defineConfig } from 'drizzle-kit';
 import { config } from 'dotenv';
 
 config();
 
 
+/** @type { import("drizzle-kit").Config } */
 export default defineConfig({
   dialect: 'postgresql',
   schema: './src/database/schema.ts',

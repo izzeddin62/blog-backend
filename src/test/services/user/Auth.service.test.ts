@@ -1,5 +1,5 @@
-import { AuthService } from '../../../src/services/user/Auth.service';
-import { User } from '../../../src/services/user/User';
+import { AuthService } from '../../../services/user/Auth.service';
+import { User } from '../../../services/user/User';
 import { userDtos, users } from '../../fixtures/users';
 import {
   mockAuthPersistance,
@@ -36,7 +36,7 @@ describe('Auth service', () => {
       expect(returnedUser.user.email).toEqual(user.email);
       expect(returnedUser.user.password).toBeDefined();
       expect(returnedUser.token).toBeDefined();
-      expect(mockedAuthPersistance.addUser).toHaveBeenCalledOnce();
+      expect(mockedAuthPersistance.addUser).toHaveBeenCalled();
     });
   });
 

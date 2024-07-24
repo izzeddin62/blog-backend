@@ -1,5 +1,6 @@
-import { User } from '../../../src/services/user/User';
+import { User } from '../../../services/user/User';
 import { userDtos } from '../../fixtures/users';
+
 
 describe('User', () => {
   it('should create a user', () => {

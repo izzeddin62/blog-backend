@@ -1,4 +1,4 @@
-import { Blog, BlogProperties } from '../../src/services/blog/blog';
+import { Blog, BlogProperties } from '../../services/blog/blog';
 
 export const blogDtos: BlogProperties[] = [
   { title: 'My first blog', content: 'This is my first blog', id: 1, owner: 1 },

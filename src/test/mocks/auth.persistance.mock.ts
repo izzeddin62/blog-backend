@@ -1,4 +1,4 @@
-import { AuthPersistance } from '../../src/persistance/Auth.persistance';
+import { AuthPersistance } from '../../persistance/Auth.persistance';
 
 
 export type AuthPersistanceMock = jest.Mocked<AuthPersistance>

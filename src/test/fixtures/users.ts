@@ -1,4 +1,4 @@
-import { User, UserProperties } from '../../src/services/user/User';
+import { User, UserProperties } from '../../services/user/User';
 
 export const userDtos: UserProperties[] = [
   {

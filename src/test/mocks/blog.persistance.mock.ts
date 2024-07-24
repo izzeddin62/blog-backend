@@ -1,4 +1,4 @@
-import { BlogPersistance } from '../../src/persistance/blog.persistance';
+import { BlogPersistance } from '../../persistance/blog.persistance';
 
 
 export type BlogPersistanceMock = jest.Mocked<BlogPersistance>
