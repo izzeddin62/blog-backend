@@ -6,4 +6,5 @@ types
 src/extensions/documentation
 src/api/**/documentation
 types/generated
+coverage/
 
