@@ -6,16 +6,14 @@ WORKDIR /usr/src/app
 # Copy the application
 COPY . .
 
-# clean the node modules
-# RUN rm -rf node_modules
 # Install app dependencies
 RUN npm install
 
 # build the app
 RUN npm run build
 
-# setup the database
-RUN npm run db:setup
+RUN chmod +x init.sh wait-for-it.sh
+
 
 # run the application
 CMD [ "npm", "start" ]

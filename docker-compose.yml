@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   app:
+    env_file: ./.env
     build: .
     ports:
       - '3000:3000'
@@ -9,22 +10,21 @@ services:
       - db
     environment:
       - DB_HOST=db
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=blog
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
       - DB_PORT=5432
-      - JWT=secret
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - JWT=${JWT}
+    command: ["./init.sh"]
 
   db:
     image: postgres:15
+    env_file:
+      - .env
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_NAME=blog
-      - POSTGRES_HOST=db
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_NAME=$DB_NAME
     ports:
       - '5432:5432'
     volumes:
