@@ -113,13 +113,25 @@ jobs:
             mkdir -p ~/app
 
             # Download docker-compose.prod.yml from artifact
-            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/docker-compose-prod.yml -O ~/app/docker-compose.yml
+            if [ -d "~/blog-backend" ]; then
+              cd ~/blog-backend
+              git pull
+            else
+              git clone https://github.com/izzeddin62/blog-backend.git ~/blog-backend
+            fi
 
             # Pull the Docker image from Docker Hub
-            sudo docker-compose -f ~/app/docker-compose.yml pull
+            sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml pull
+
+            echo "DB_HOST=db" >> .env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> ~/blog-backend/.env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ~/blog-backend/.env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> ~/blog-backend/.env
+            echo "JWT=${{ secrets.JWT_SECRET }}" >> ~/blog-backend/.env
+            echo "DB_PORT=5432" >> ~/blog-backend/.env
 
             # Stop and remove existing containers
-            sudo docker-compose -f ~/app/docker-compose.yml down
+            sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml down
 
             # Start new containers
-            sudo docker-compose -f ~/app/docker-compose.yml up -d
+            sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml up -d
