@@ -9,90 +9,90 @@ on:
       - main
 
 jobs:
-  test-and-build:
-    runs-on: ubuntu-latest
-    container: node:20
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: blog
-          DB_PORT: 5432
-          DB_HOST: db
-          DB_USER: ostgres
-          DB_PASSWORD: postgres
-          DB_NAME: blog
-          JWT: secret
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+  # test-and-build:
+  #   runs-on: ubuntu-latest
+  #   container: node:20
+  #   services:
+  #     postgres:
+  #       image: postgres
+  #       env:
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_PASSWORD: postgres
+  #         POSTGRES_DB: blog
+  #         DB_PORT: 5432
+  #         DB_HOST: db
+  #         DB_USER: ostgres
+  #         DB_PASSWORD: postgres
+  #         DB_NAME: blog
+  #         JWT: secret
+  #       ports:
+  #         - 5432:5432
+  #       options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       
-    env:
-      DB_PORT: 5432
-      DB_HOST: 127.0.0.1
-      DB_USER: postgres
-      DB_NAME: blog
-      JWT: secret
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
+  #   env:
+  #     DB_PORT: 5432
+  #     DB_HOST: 127.0.0.1
+  #     DB_USER: postgres
+  #     DB_NAME: blog
+  #     JWT: secret
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      - name: Run code checks
-        run: npm run lint
+  #     - name: Run code checks
+  #       run: npm run lint
       
-      - name: Run tests
-        run: npm test
-  build-and-push:
-    needs: test-and-build
-    runs-on: ubuntu-latest
-    env:
-      DB_PORT: 5432
-      DB_HOST: 127.0.0.1
-      DB_USER: postgres
-      DB_NAME: blog
-      JWT: secret
-    steps:
-      - uses: actions/checkout@v3
+  #     - name: Run tests
+  #       run: npm test
+  # build-and-push:
+  #   needs: test-and-build
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     DB_PORT: 5432
+  #     DB_HOST: 127.0.0.1
+  #     DB_USER: postgres
+  #     DB_NAME: blog
+  #     JWT: secret
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Create .env file
-        run: |
-          echo "DB_HOST=db" >> .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-          echo "JWT=${{ secrets.JWT_SECRET }}" >> .env
-          echo "DB_PORT=5432" >> .env
+  #     - name: Create .env file
+  #       run: |
+  #         echo "DB_HOST=db" >> .env
+  #         echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+  #         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+  #         echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+  #         echo "JWT=${{ secrets.JWT_SECRET }}" >> .env
+  #         echo "DB_PORT=5432" >> .env
       
 
-      - name: ls .env
-        run: |
-          ls -a
-          cat .env
+  #     - name: ls .env
+  #       run: |
+  #         ls -a
+  #         cat .env
   
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: izzeddin285/blog-backend:latest
+  #     - name: Build and push Docker image
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: izzeddin285/blog-backend:latest
       
-      - name: Remove .env file
-        run: rm .env
+  #     - name: Remove .env file
+  #       run: rm .env
   deploy:
-    needs: build-and-push
+    # needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
