@@ -113,13 +113,13 @@ jobs:
             mkdir -p ~/app
 
             # Download docker-compose.prod.yml from artifact
-            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/docker-compose-prod.yml -O ~/app/docker-compose.yml
+            git clone https://github.com/izzeddin62/blog-backend.git
 
             # Pull the Docker image from Docker Hub
-            sudo docker-compose -f ~/app/docker-compose.yml pull
+            sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml pull
 
             # Stop and remove existing containers
-            sudo docker-compose -f ~/app/docker-compose.yml down
+            sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml down
 
             # Start new containers
-            sudo docker-compose -f ~/app/docker-compose.yml up -d
+            sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml up -d
