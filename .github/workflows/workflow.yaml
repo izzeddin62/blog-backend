@@ -63,7 +63,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_HOST=db" >> .env
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
@@ -91,3 +91,40 @@ jobs:
       
       - name: Remove .env file
         run: rm .env
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Azure CLI
+        uses: azure/setup-azure-cli@v1
+        with:
+          azure_cli_version: '2.x'
+
+      - name: SSH to Azure server and deploy Docker image with Compose
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.AZURE_SERVER_IP }}
+          username: ${{ secrets.AZURE_USERNAME }}
+          password: ${{ secrets.AZURE_PASSWORD }}
+          script: |
+            # Update Docker and Docker Compose
+            sudo apt-get update
+            sudo apt-get install -y docker.io docker-compose
+
+            # Create directory for docker-compose file
+            mkdir -p ~/app
+
+            # Download docker-compose.prod.yml from artifact
+            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/docker-compose-prod.yml -O ~/app/docker-compose.yml
+
+            # Pull the Docker image from Docker Hub
+            sudo docker-compose -f ~/app/docker-compose.yml pull
+
+            # Stop and remove existing containers
+            sudo docker-compose -f ~/app/docker-compose.yml down
+
+            # Start new containers
+            sudo docker-compose -f ~/app/docker-compose.yml up -d
