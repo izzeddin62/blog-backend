@@ -71,7 +71,9 @@ jobs:
       
 
       - name: ls .env
-        run: ls -a
+        run: |
+          ls -a
+          cat .env
   
       - name: Login to Docker Hub
         uses: docker/login-action@v2
