@@ -113,7 +113,12 @@ jobs:
             mkdir -p ~/app
 
             # Download docker-compose.prod.yml from artifact
-            git clone https://github.com/izzeddin62/blog-backend.git
+            if [ -d "~/blog-backend" ]; then
+              cd ~/blog-backend
+              git pull
+            else
+              git clone https://github.com/izzeddin62/blog-backend.git ~/blog-backend
+            fi
 
             # Pull the Docker image from Docker Hub
             sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml pull
