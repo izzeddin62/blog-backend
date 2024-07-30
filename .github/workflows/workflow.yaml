@@ -68,6 +68,7 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
           echo "JWT=${{ secrets.JWT_SECRET }}" >> .env
+          echo "DB_PORT=5432" >> .env
       
 
       - name: ls .env
