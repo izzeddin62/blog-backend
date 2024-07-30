@@ -52,6 +52,12 @@ jobs:
   build-and-push:
     needs: test-and-build
     runs-on: ubuntu-latest
+    env:
+      DB_PORT: 5432
+      DB_HOST: 127.0.0.1
+      DB_USER: postgres
+      DB_NAME: blog
+      JWT: secret
     steps:
       - uses: actions/checkout@v3
 
