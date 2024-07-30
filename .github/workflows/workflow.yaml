@@ -118,6 +118,13 @@ jobs:
             # Pull the Docker image from Docker Hub
             sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml pull
 
+            echo "DB_HOST=db" >> .env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> ~/blog-backend/.env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ~/blog-backend/.env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> ~/blog-backend/.env
+            echo "JWT=${{ secrets.JWT_SECRET }}" >> ~/blog-backend/.env
+            echo "DB_PORT=5432" >> ~/blog-backend/.env
+
             # Stop and remove existing containers
             sudo docker-compose -f ~/blog-backend/docker-compose.prod.yml down
 
